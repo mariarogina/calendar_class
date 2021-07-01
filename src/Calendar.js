@@ -104,8 +104,37 @@ while (allflat.length > 0)
 
 console.log(weekarrays);
 
+//first week, and last week, and three in between
+//first week split
+let firstweek= weekarrays[0]
+let prevmondays = firstweek.splice(0, prev_mo_days);
+
+
+console.log("PPP" + prevmondays);
+console.log("LLL" + firstweek);
+
+
+//last week split 
+let lastweek= weekarrays[4]
+let nextmondays = []
+for (let i = 0; i < next_mo_days; i++ ) {
+ let popped = lastweek.pop()
+ nextmondays. push(popped)
+
+}
+console.log("NNN" + nextmondays);
+console.log("LLL" + lastweek);
+
+
+let threemoreweeks = weekarrays.slice(1,4);
+console.log(firstweek, threemoreweeks, lastweek)
+
  let newWeekArr = weekArray.map((item) => {return item.slice(0,3)});
  console.log(newWeekArr);
+
+ console.log(+(moment().format("DD")))
+
+
 
  
 export default class Calendar extends Component {
@@ -137,16 +166,40 @@ export default class Calendar extends Component {
       <col/>
       <col/>
       <col/>
-      <col/>
-      <col/>
+      <col className="ui-datepicker-week-end"/>
+      <col className="ui-datepicker-week-end"/>
     </colgroup>
     <thead>
       <tr>
-      {newWeekArr.map((item) => (<th scope="col" title="item">{item}</th>))}
+      {newWeekArr.map((item,i) => (<th key={i} scope="col" title="item">{item}</th>))}
       </tr>
     </thead>
     <tbody>
-   { weekarrays.map((item,i) => (<tr>{item.map(subitem => <td>{subitem}</td>)}</tr>) )}
+<tr>
+{prevmondays.map((item,i) =>  (<td key={i} className = "ui-datepicker-other-month">{item}</td>))}
+{firstweek.map((item,i) =>  (<td key={i} className = {item == +(moment().format("DD")) ? "ui-datepicker-today" : ""}>{item}</td>))}
+
+
+</tr>
+   { threemoreweeks.map((item,i) => (<tr key={i} >
+   
+    
+   {item.map((subitem,i) => <td key={i} className = {subitem == +(moment().format("DD")) ? "ui-datepicker-today" : ""} 
+   >
+   {subitem} </td>)}
+   
+   
+   </tr>) )}
+
+   <tr>
+   
+{lastweek.map((item,i) =>  (<td key={i} className = {item == +(moment().format("DD")) ? "ui-datepicker-today" : ""}>{item}</td>))}
+{nextmondays.map((item,i) =>  (<td key={i} className = "ui-datepicker-other-month">{item}</td>))}
+
+
+</tr>
+
+
       
     </tbody>
   </table>
