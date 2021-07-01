@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Calendar from './Calendar'
 
-const now = new Date(2021,2,8);
+const now = new Date(1987,1,2);
 
 // внутри компонента App:
 
