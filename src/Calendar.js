@@ -1,30 +1,25 @@
 import React, { Component } from "react";
 import moment from "moment";
+import 'moment/locale/ru'  // without this line it didn't work
+moment.locale('ru')
 
 export default class Calendar extends Component {
   render() {
     let myDate = moment(this.props.date);
-    //first and last day of current month
+   
 
-    let weekArray = get_weekarray();
-
-    //  let next_mo_days;
-    //  let allflat;
-    //  let weekArray;
-    //  let weekarrays;
-    //  let smallweeks = [];
-    //  let  newWeekArr;
-
+    
+ 
     function prev_mon_days() {
       const firstdate = moment(myDate).startOf("month");
-      // .format("DD-MM-YYYY");
+     
       let day_first = firstdate.day();
 
       // Sunday - Saturday : 0 - 6
       //trailing days of prev mo, count
       let prev_mo_days = 0;
 
-      if (day_first == 0) {
+      if (day_first === 0) {
         prev_mo_days = 6;
       } else {
         prev_mo_days = day_first - 1;
@@ -40,7 +35,7 @@ export default class Calendar extends Component {
       let day_last = lastdate.day();
 
       let next_mo_days = 0;
-      if (day_last != 0) {
+      if (day_last !== 0) {
         next_mo_days = 7 - day_last;
       }
 
@@ -68,15 +63,11 @@ export default class Calendar extends Component {
       //days in our month
       let cur_mo_count = [];
       let cur_mo_days = moment(myDate).daysInMonth();
-      console.log(cur_mo_days);
       for (let i = 1; i <= cur_mo_days; i++) {
         cur_mo_count.push(i);
       }
 
-      // console.log("last prev" + date0.format("YYYY-MM-DD"));
-
-      // let last_mo_name = moment(last_mo+1, 'M').format('MMMM');
-
+    
       let alldays = [...last_m_days, cur_mo_count, next_m_days];
       let allflat = alldays.flat(1);
 
@@ -87,12 +78,22 @@ export default class Calendar extends Component {
 
     //
     function get_weekarray() {
+      let arr = moment.weekdaysShort();
+      var shifted = arr.shift();
+      arr.push(shifted);
+
+      return arr;
+    }
+
+    function get_weekarrayFull() {
       let arr = moment.weekdays();
       var shifted = arr.shift();
       arr.push(shifted);
 
       return arr;
     }
+
+    let week_full=get_weekarrayFull();
 
     //
 
@@ -133,46 +134,42 @@ export default class Calendar extends Component {
 
     //
 
-    function get_newArr() {
-      return weekArray.map((item) => {
-        return item.slice(0, 3);
-      });
-    }
+    
 
     let smallweeks = get_small_weeks();
 
-    let newWeekArr = get_newArr();
+    let newWeekArr = get_weekarray();
 
     return (
-      <div class="ui-datepicker">
-        <div class="ui-datepicker-material-header">
-          <div class="ui-datepicker-material-day">
-            {weekArray[this.props.date.getDay() - 1]}
+      <div className="ui-datepicker">
+        <div className="ui-datepicker-material-header">
+          <div className="ui-datepicker-material-day">
+            {week_full[this.props.date.getDay() - 1]}
           </div>
-          <div class="ui-datepicker-material-date">
-            <div class="ui-datepicker-material-day-num">
+          <div className="ui-datepicker-material-date">
+            <div className="ui-datepicker-material-day-num">
               {moment(myDate).format("DD")}
             </div>
-            <div class="ui-datepicker-material-month">
-              {moment(myDate).format("MMM")}
+            <div className="ui-datepicker-material-month">
+              {moment(myDate).format("D MMMM").split(" ")[1]} 
             </div>
-            <div class="ui-datepicker-material-year">
+            <div className="ui-datepicker-material-year">
               {this.props.date.getFullYear()}
             </div>
           </div>
         </div>
-        <div class="ui-datepicker-header">
-          <div class="ui-datepicker-title">
-            <span class="ui-datepicker-month">
+        <div className="ui-datepicker-header">
+          <div className="ui-datepicker-title">
+            <span className="ui-datepicker-month">
               {moment(myDate).format("MMMM")}
             </span>
             &nbsp;
-            <span class="ui-datepicker-year">
+            <span className="ui-datepicker-year">
               {this.props.date.getFullYear()}
             </span>
           </div>
         </div>
-        <table class="ui-datepicker-calendar">
+        <table className="ui-datepicker-calendar">
           <colgroup>
             <col />
             <col />
@@ -202,7 +199,7 @@ export default class Calendar extends Component {
                 <td
                   key={i}
                   className={
-                    item == +moment(myDate).format("DD")
+                    item === +moment(myDate).format("DD")
                       ? "ui-datepicker-today"
                       : ""
                   }
@@ -217,7 +214,7 @@ export default class Calendar extends Component {
                   <td
                     key={i}
                     className={
-                      subitem == +moment(myDate).format("DD")
+                      subitem === +moment(myDate).format("DD")
                         ? "ui-datepicker-today"
                         : ""
                     }
@@ -232,7 +229,7 @@ export default class Calendar extends Component {
                 <td
                   key={i}
                   className={
-                    item == +moment(myDate).format("DD")
+                    item === +moment(myDate).format("DD")
                       ? "ui-datepicker-today"
                       : ""
                   }
