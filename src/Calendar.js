@@ -124,7 +124,7 @@ export default class Calendar extends Component {
       let nextmondays = [];
       for (let i = 0; i < next_mo_days; i++) {
         let popped = lastweek.pop();
-        nextmondays.push(popped);
+        nextmondays.unshift(popped);
       }
       smallweeks.push(lastweek);
       smallweeks.push(nextmondays);
