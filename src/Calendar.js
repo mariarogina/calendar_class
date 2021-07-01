@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import moment from "moment";
 import 'moment/locale/ru'  // without this line it didn't work
 moment.locale('ru')
@@ -249,3 +250,7 @@ export default class Calendar extends Component {
     );
   }
 }
+
+Calendar.propTypes = {
+  date: PropTypes.object
+};
