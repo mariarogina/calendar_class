@@ -18,14 +18,18 @@ export default class Calendar extends Component {
     function prev_mon_days() {
       const firstdate = moment(myDate).startOf("month");
       // .format("DD-MM-YYYY");
-      const day_first = firstdate.day();
+      let day_first = firstdate.day();
 
       // Sunday - Saturday : 0 - 6
       //trailing days of prev mo, count
       let prev_mo_days = 0;
-      if (day_first != 0) {
+
+      if (day_first == 0) {
+        prev_mo_days = 6;
+      } else {
         prev_mo_days = day_first - 1;
       }
+
       return prev_mo_days;
     }
 
@@ -33,12 +37,13 @@ export default class Calendar extends Component {
     //
     function next_mon_days() {
       const lastdate = moment(myDate).endOf("month");
-      const day_last = lastdate.day();
+      let day_last = lastdate.day();
 
       let next_mo_days = 0;
-      if (day_last != 7) {
+      if (day_last != 0) {
         next_mo_days = 7 - day_last;
       }
+
       return next_mo_days;
     }
 
@@ -111,11 +116,11 @@ export default class Calendar extends Component {
       smallweeks.push(prevmondays);
       smallweeks.push(firstweek);
 
-      let threemoreweeks = weekarrays.slice(1, 4);
+      let threemoreweeks = weekarrays.slice(1, weekarrays.length - 1);
       smallweeks.push(threemoreweeks);
       //last week split
 
-      let lastweek = weekarrays[4];
+      let lastweek = weekarrays[weekarrays.length - 1];
       let nextmondays = [];
       for (let i = 0; i < next_mo_days; i++) {
         let popped = lastweek.pop();
@@ -142,20 +147,16 @@ export default class Calendar extends Component {
       <div class="ui-datepicker">
         <div class="ui-datepicker-material-header">
           <div class="ui-datepicker-material-day">
-            
             {weekArray[this.props.date.getDay() - 1]}
           </div>
           <div class="ui-datepicker-material-date">
             <div class="ui-datepicker-material-day-num">
-              
               {moment(myDate).format("DD")}
             </div>
             <div class="ui-datepicker-material-month">
-              
               {moment(myDate).format("MMM")}
             </div>
             <div class="ui-datepicker-material-year">
-              
               {this.props.date.getFullYear()}
             </div>
           </div>
@@ -163,7 +164,6 @@ export default class Calendar extends Component {
         <div class="ui-datepicker-header">
           <div class="ui-datepicker-title">
             <span class="ui-datepicker-month">
-              
               {moment(myDate).format("MMMM")}
             </span>
             &nbsp;
@@ -184,10 +184,8 @@ export default class Calendar extends Component {
           </colgroup>
           <thead>
             <tr>
-              
               {newWeekArr.map((item, i) => (
                 <th key={i} scope="col" title="item">
-                  
                   {item}
                 </th>
               ))}
@@ -195,10 +193,8 @@ export default class Calendar extends Component {
           </thead>
           <tbody>
             <tr>
-              
               {smallweeks[0].map((item, i) => (
                 <td key={i} className="ui-datepicker-other-month">
-                  
                   {item}
                 </td>
               ))}
@@ -206,10 +202,11 @@ export default class Calendar extends Component {
                 <td
                   key={i}
                   className={
-                    item == +moment(myDate).format("DD") ? "ui-datepicker-today" : ""
+                    item == +moment(myDate).format("DD")
+                      ? "ui-datepicker-today"
+                      : ""
                   }
                 >
-                  
                   {item}
                 </td>
               ))}
@@ -225,7 +222,6 @@ export default class Calendar extends Component {
                         : ""
                     }
                   >
-                    
                     {subitem}
                   </td>
                 ))}
@@ -236,16 +232,16 @@ export default class Calendar extends Component {
                 <td
                   key={i}
                   className={
-                    item == +moment(myDate).format("DD") ? "ui-datepicker-today" : ""
+                    item == +moment(myDate).format("DD")
+                      ? "ui-datepicker-today"
+                      : ""
                   }
                 >
-                  
                   {item}
                 </td>
               ))}
               {smallweeks[4].map((item, i) => (
                 <td key={i} className="ui-datepicker-other-month">
-                  
                   {item}
                 </td>
               ))}
